@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SRMS Visibility Test</title>
+    <style>
+        body { font-family: Arial, sans-serif; padding: 20px; }
+        .test-result { padding: 10px; margin: 10px 0; border-radius: 5px; }
+        .pass { background-color: #d4edda; color: #155724; border: 1px solid #c3e6cb; }
+        .fail { background-color: #f8d7da; color: #721c24; border: 1px solid #f5c6cb; }
+    </style>
+</head>
+<body>
+    <h1>SRMS Visibility Test</h1>
+    <div id="test-results"></div>
+    
+    <button onclick="openApp()">Open SRMS App</button>
+    
+    <script>
+        function runVisibilityTests() {
+            const results = [];
+            
+            // Test 1: Check if index.html exists
+            fetch('./index.html')
+                .then(response => {
+                    if (response.ok) {
+                        results.push({ test: 'index.html exists', status: 'pass' });
+                    } else {
+                        results.push({ test: 'index.html exists', status: 'fail' });
+                    }
+                    displayResults(results);
+                })
+                .catch(() => {
+                    results.push({ test: 'index.html exists', status: 'fail' });
+                    displayResults(results);
+                });
+        }
+        
+        function displayResults(results) {
+            const container = document.getElementById('test-results');
+            container.innerHTML = results.map(result => 
+                `<div class="test-result ${result.status}">${result.test}: ${result.status.toUpperCase()}</div>`
+            ).join('');
+        }
+        
+        function openApp() {
+            window.open('./index.html', '_blank');
+        }
+        
+        // Run tests on load
+        runVisibilityTests();
+    </script>
+</body>
+</html>
